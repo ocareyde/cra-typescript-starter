@@ -1,12 +1,9 @@
 import { useEditionDrop } from "@thirdweb-dev/react";
-import { EditionMetadata } from "@thirdweb-dev/sdk";
+import { EditionDrop, EditionMetadata } from "@thirdweb-dev/sdk";
 import { useState, useEffect } from "react";
 
 
-const EditionDropList = ({ address } : { address: any}) => {
-  // get an instance of contract
-  const editionDrop = useEditionDrop(address);
-
+const EditionDropList = ({ editionDrop } : {editionDrop: EditionDrop | undefined }) => {
   const [nfts, setNfts] = useState<EditionMetadata[]>([]);
 
   useEffect(() => {
@@ -26,6 +23,7 @@ const EditionDropList = ({ address } : { address: any}) => {
 
   return (
     <div>
+      <h2>Membership NFTs</h2>
       <ul>
         {nfts.map((nft) => (
           <li key={nft.metadata.id.toString()}>{nft.metadata.name}</li>

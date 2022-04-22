@@ -10,14 +10,16 @@ function App() {
   const disconnectWallet = useDisconnect();
   console.log("👋 Address:", address);
 
-  const memberNFTAddress = "0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D";
+  // Contracts
+  const memberNFTDrop = useEditionDrop("0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D");
+  const tokenId = 1; // 0: OG, 1: Membership
 
   return (
     <div className='landing'>
       {address ? (
         <>
           <h1>Welcome to NorthStar DAO</h1>
-            <EditionDropList address={memberNFTAddress}></EditionDropList>
+            <EditionDropList editionDrop={memberNFTDrop}></EditionDropList>
           <button onClick={disconnectWallet}>Disconnect Wallet</button>
           <p>Your address: {address}</p>
         </>
