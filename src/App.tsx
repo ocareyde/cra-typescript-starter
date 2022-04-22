@@ -5,7 +5,7 @@ function App() {
   const connectWithMetamask = useMetamask();
   const disconnectWallet = useDisconnect();
   return (
-    <div>
+    <div className='landing'>
       {address ? (
         <>
           <button onClick={disconnectWallet}>Disconnect Wallet</button>
