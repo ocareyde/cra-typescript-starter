@@ -35,7 +35,7 @@ const useEffectCheckBalance = ({ address, editionDrop, tokenId } :
     }, [address, editionDrop]);
 
     // return the dynamic state variables
-    return { hasClaimedNFT }
+    return { hasClaimedNFT, setHasClaimedNFT}
 }
 
 export default useEffectCheckBalance;
