@@ -15,23 +15,46 @@ function App() {
   const memberNFTDrop = useEditionDrop("0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D");
   const tokenId = 1; // 0: OG, 1: Membership
 
-  // // State variable for us to know if user has our NFT.
-  // const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
-  // // isClaiming lets us easily keep a loading state while the NFT is minting.
-  // const [isClaiming, setIsClaiming] = useState(false);
 
 
+  // STATE VARIABLES //
   // State variable for us to know if user has our NFT.
   const { hasClaimedNFT, setHasClaimedNFT } = useEffectCheckBalance({ address, editionDrop: memberNFTDrop, tokenId })
   // isClaiming lets us keep a loading state while the NFT is minting
   const [isClaiming, setIsClaiming] = useState(false);
+  // Membership NFTs
+  const [memberNFTs, setMemberNFTs] = useState<EditionMetadata[]>([]);
 
+  useEffect(() => {
+    console.log('useEffect for useEffectGetMemberNFTs');
+    // If they don't have a connected wallet, exit! No point in retrieving NFTs
+    if (!address) {
+      return;
+    }
+    // If they are not a member, exit!
+    if (!hasClaimedNFT) {
+      return;
+    }
+
+    memberNFTDrop?.getAll()
+      .then((nfts) => {
+        setMemberNFTs(nfts)
+        console.log("Membership NFTs:", nfts)
+      })
+      .catch((err) => {
+        console.error("Failed to get membership NFTs", err);
+      })
+  }, [address, hasClaimedNFT])
+
+
+
+  // FUNCTIONS //
   // Function to mint an NFT upon some user event
   const mintNFT = async () => {
     try {
       setIsClaiming(true);
       await memberNFTDrop?.claim(tokenId,1);
-      console.log(`🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${memberNFTDrop?.getAddress()}/0`);
+      console.log(`🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${memberNFTDrop?.getAddress()}/${tokenId}`);
       setHasClaimedNFT(true);
     } catch (error) {
       setHasClaimedNFT(false);
@@ -64,7 +87,68 @@ function App() {
     return (
       <div className="member-page">
         <h1>NorthStar DAO Member Page</h1>
-        <p>Thanks for being a member and taking part in the future of organized groups!</p>
+        <h2>Thanks for being a member and taking part in the future of organized groups!</h2>
+        <p></p>
+        <div>
+          <table className="card" style={{
+            marginLeft: "auto",
+            marginRight: "auto"
+          }}>
+            <thead>
+              <tr>
+                <th>Token Id</th>
+                <th>Media</th>
+                <th>Name</th>
+                <th>Description</th>
+                {/* <th>Properties</th> */}
+                <th>Claimed Supply</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {memberNFTs.map((memberNFT) => {
+                return (
+                  <tr key={memberNFT.metadata.id.toString()}>
+                    <td>{memberNFT.metadata.id.toString()}</td>
+                    <td>
+                      <img
+                        src={memberNFT.metadata.image}
+                        width= "100%"
+                        height= "auto"
+                        style={{
+                          objectFit: "scale-down"
+                      }}></img>
+                    </td>
+                    <td>{memberNFT.metadata.name}</td>
+                    <td>{memberNFT.metadata.description}</td>
+                    <td>{memberNFT.supply.toString()}</td>
+                    <td>THIS IS WHERE MINT AND BURN BUTTONS WILL GO</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+        
+        {/* <div style={{
+            textAlign: "center"
+        }}>
+        {memberNFTs.map((memberNFT) => (
+          <div key={memberNFT.metadata.id.toString()}>
+            <iframe
+              src={"https://gateway.ipfscdn.io/ipfs/QmQpHkDDWGJPBHFKkpX1DsfzvwZXQYNVoaW4R1Lhenp6T5/bundledrop.html?contract=0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D&chainId=4&tokenId=" + memberNFT.metadata.id}
+              width="600px"
+              height="600px"
+              style={{
+                // width: "800px",
+                maxWidth: "100%",
+              }}
+            ></iframe>
+          </div>
+        ))}
+        </div> */}
+        
+        <p></p>
         <>
           <button onClick={disconnectWallet}>Disconnect Wallet</button>
           <p>Your address: {address}</p>

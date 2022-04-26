@@ -12,15 +12,15 @@ const user3 = '0xD8d8845f668A69904693715b506F9eB376C6eD66'
 // Token ID 1 - Membership
 const address = '0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D'
 const contract = sdk.getEditionDrop(address);
-console.log(await contract.metadata.get());
-console.log(await contract.claimConditions.getAll(1))
 
+// console.log(await contract.metadata.get());
+// console.log(await contract.claimConditions.getAll(1))
 
-console.log(await contract.claimConditions.canClaim(1, 1, user1))
-console.log(await contract.claimConditions.getClaimIneligibilityReasons(1, 1, user1))
-
+// console.log(await contract.claimConditions.canClaim(1, 1, user1))
+// console.log(await contract.claimConditions.getClaimIneligibilityReasons(1, 1, user1))
 
 console.log(await contract.getAll())
+console.log(await contract.getOwned(user))
 
 
 export {}

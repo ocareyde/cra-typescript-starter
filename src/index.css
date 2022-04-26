@@ -139,3 +139,8 @@ button:disabled {
   opacity: 0.8;
   pointer-events: none;
 }
+
+
+tr > * + * {
+  padding-left: 3em;
+}
