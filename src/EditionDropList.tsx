@@ -2,8 +2,7 @@ import { useEditionDrop } from "@thirdweb-dev/react";
 import { EditionDrop, EditionMetadata } from "@thirdweb-dev/sdk";
 import { useState, useEffect } from "react";
 
-
-const EditionDropList = ({ editionDrop } : {editionDrop: EditionDrop | undefined }) => {
+const EditionDropList = ({ editionDrop } : { editionDrop: EditionDrop | undefined }) => {
   const [nfts, setNfts] = useState<EditionMetadata[]>([]);
 
   useEffect(() => {
