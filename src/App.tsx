@@ -24,8 +24,8 @@ function App() {
 
   // STATE VARIABLES //
   // State variable for us to know if user has our NFT.
-  const { hasClaimedNFT, setHasClaimedNFT } = useEditionDropGetOwned({ address, editionDrop: memberNFTDrop })
-  // // isClaiming lets us keep a loading state while the NFT is minting
+  const { hasClaimedNFT, setHasClaimedNFT, isValidating, setIsValidating } = useEditionDropGetOwned({ address, editionDrop: memberNFTDrop })
+  // isClaiming lets us keep a loading state while the NFT is minting
   const [isClaiming, setIsClaiming] = useState(false);
   // Membership NFTs
   const [memberNFTs, setMemberNFTs] = useState<EditionMetadata[]>([]);
@@ -73,6 +73,20 @@ function App() {
 
   // HTML //
 
+  // If user hasn't connected thier wallet to the dApp ->
+  // no need to show any blockchain data, just take them to landing page to connect
+  // TODO: maybe button to go back to regular website
+  if (!address) {
+    return (
+      <div className="landing">
+        <h1>Welcome to NorthStar DAO</h1>
+        <button onClick={connectWithMetamask} className="btn-hero">
+          Connect with Metamask
+        </button>
+      </div>
+    );
+  }
+
   // Pop a message if the user is not on Rinkeby
   if (address && chainId != activeChainId) {
     return (
@@ -89,18 +103,13 @@ function App() {
     );
   }
 
-  // If user hasn't connected thier wallet to the dApp ->
-  // no need to show any blockchain data, just take them to landing page to connect
-  // TODO: maybe button to go back to regular website
-  if (!address) {
+  // Set a Loading State
+  if (isValidating) {
     return (
       <div className="landing">
-        <h1>Welcome to NorthStar DAO</h1>
-        <button onClick={connectWithMetamask} className="btn-hero">
-          Connect with Metamask
-        </button>
+        <h1>Validating Membership</h1>
       </div>
-    );
+    )
   }
 
   // Connected User
