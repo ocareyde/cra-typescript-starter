@@ -1,6 +1,6 @@
-import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react';
+import { useAddress, useChainId, useDisconnect, useMetamask } from '@thirdweb-dev/react';
 import { useEditionDrop } from "@thirdweb-dev/react";
-import { EditionMetadata } from '@thirdweb-dev/sdk';
+import { ChainId, EditionMetadata } from '@thirdweb-dev/sdk';
 import { useState, useEffect } from 'react';
 import EditionDropList from './EditionDropList';
 import useEditionDropGetOwned from './useEditionDropGetOwned';
@@ -11,16 +11,19 @@ function App() {
   const connectWithMetamask = useMetamask();
   const disconnectWallet = useDisconnect();
   console.log("👋 Address:", address);
+  const chainId = useChainId();
 
   // CONTRACTS //
+  const activeChainId = ChainId.Rinkeby;
   const memberNFTDrop = useEditionDrop("0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D");
   const tokenId = 1; // 0: OG, 1: Membership
 
+  console.log(chainId)
+  console.log(activeChainId)
 
 
   // STATE VARIABLES //
   // State variable for us to know if user has our NFT.
-  // const { hasClaimedNFT, setHasClaimedNFT } = useEffectCheckBalance({ address, editionDrop: memberNFTDrop, tokenId })
   const { hasClaimedNFT, setHasClaimedNFT } = useEditionDropGetOwned({ address, editionDrop: memberNFTDrop })
   // // isClaiming lets us keep a loading state while the NFT is minting
   const [isClaiming, setIsClaiming] = useState(false);
@@ -69,6 +72,23 @@ function App() {
 
 
   // HTML //
+
+  // Pop a message if the user is not on Rinkeby
+  if (address && chainId != activeChainId) {
+    return (
+      // <>
+      <div className="unsupported-network">
+        <h2>Please connect to Rinkeby</h2>
+        <p>
+          This dapp only works on the Rinkeby network, please switch networks
+          in your connected wallet.
+        </p>
+        <button onClick={disconnectWallet}>Disconnect Wallet</button>
+      </div>
+      // </>
+    );
+  }
+
   // If user hasn't connected thier wallet to the dApp ->
   // no need to show any blockchain data, just take them to landing page to connect
   // TODO: maybe button to go back to regular website
