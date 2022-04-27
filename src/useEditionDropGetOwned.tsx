@@ -9,7 +9,6 @@ const useEditionDropGetOwned = ({ address, editionDrop }:
   const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
   // isValidating lets us keep a loading state while checking if validating membership
   const [isValidating, setIsValidating] = useState(false);
-  console.log("CHECK 1", isValidating)
 
   useEffect(() => {
     console.log('useEffect for useEditionDropGetOwned');
@@ -21,11 +20,10 @@ const useEditionDropGetOwned = ({ address, editionDrop }:
     // If they are connected, check their NFT balance
     const getOwned = async () => {
       try {
-        console.log("CHECK 2", isValidating)
-
         const owned = await editionDrop?.getOwned(address);
         const balance = BigNumber.from(owned?.length);
         console.log("Unique Membership NFTs Claimed: ", balance?.gt(0));
+        
         if (balance?.gt(0)) {
           setHasClaimedNFT(true);
           console.log("🌟 this user has a membership NFT!");
@@ -39,7 +37,6 @@ const useEditionDropGetOwned = ({ address, editionDrop }:
       } finally {
         setIsValidating(false);
       }
-      console.log("CHECK 3", isValidating)
     };
     getOwned();
   }, [address, editionDrop]);

@@ -4,7 +4,6 @@ import { ChainId, EditionMetadata } from '@thirdweb-dev/sdk';
 import { useState, useEffect } from 'react';
 import EditionDropList from './EditionDropList';
 import useEditionDropGetOwned from './useEditionDropGetOwned';
-import useEffectCheckBalance from './useEffectCheckBalance';
 
 function App() {
   const address = useAddress();
