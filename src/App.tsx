@@ -3,6 +3,7 @@ import { useEditionDrop } from "@thirdweb-dev/react";
 import { EditionMetadata } from '@thirdweb-dev/sdk';
 import { useState, useEffect } from 'react';
 import EditionDropList from './EditionDropList';
+import useEditionDropGetOwned from './useEditionDropGetOwned';
 import useEffectCheckBalance from './useEffectCheckBalance';
 
 function App() {
@@ -19,8 +20,9 @@ function App() {
 
   // STATE VARIABLES //
   // State variable for us to know if user has our NFT.
-  const { hasClaimedNFT, setHasClaimedNFT } = useEffectCheckBalance({ address, editionDrop: memberNFTDrop, tokenId })
-  // isClaiming lets us keep a loading state while the NFT is minting
+  // const { hasClaimedNFT, setHasClaimedNFT } = useEffectCheckBalance({ address, editionDrop: memberNFTDrop, tokenId })
+  const { hasClaimedNFT, setHasClaimedNFT } = useEditionDropGetOwned({ address, editionDrop: memberNFTDrop })
+  // // isClaiming lets us keep a loading state while the NFT is minting
   const [isClaiming, setIsClaiming] = useState(false);
   // Membership NFTs
   const [memberNFTs, setMemberNFTs] = useState<EditionMetadata[]>([]);
@@ -129,25 +131,6 @@ function App() {
             </tbody>
           </table>
         </div>
-        
-        {/* <div style={{
-            textAlign: "center"
-        }}>
-        {memberNFTs.map((memberNFT) => (
-          <div key={memberNFT.metadata.id.toString()}>
-            <iframe
-              src={"https://gateway.ipfscdn.io/ipfs/QmQpHkDDWGJPBHFKkpX1DsfzvwZXQYNVoaW4R1Lhenp6T5/bundledrop.html?contract=0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D&chainId=4&tokenId=" + memberNFT.metadata.id}
-              width="600px"
-              height="600px"
-              style={{
-                // width: "800px",
-                maxWidth: "100%",
-              }}
-            ></iframe>
-          </div>
-        ))}
-        </div> */}
-        
         <p></p>
         <>
           <button onClick={disconnectWallet}>Disconnect Wallet</button>
@@ -173,7 +156,6 @@ function App() {
               waiver
             </a>
           </li>
-          {/* <li>Mint a membership NFT</li> */}
           <li>
             <button
               disabled={isClaiming}
