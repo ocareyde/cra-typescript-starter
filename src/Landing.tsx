@@ -1,6 +1,3 @@
-// If user hasn't connected thier wallet to the dApp ->
-// no need to show any blockchain data, just take them to landing page to connect
-// TODO: maybe button to go back to regular website
 import { useMetamask } from "@thirdweb-dev/react";
 
 const Landing = () => {

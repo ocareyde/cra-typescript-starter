@@ -8,7 +8,6 @@ const NonMember = ({ address, tokenId, memberNFTDrop, isClaiming, setIsClaiming,
     setIsClaiming: (value: React.SetStateAction<boolean>) => void,
     setHasClaimedNFT: (value: React.SetStateAction<boolean>) => void 
   }) => {
-  
 
   const disconnectWallet = useDisconnect();
 

@@ -1,4 +1,3 @@
-// Pop a message if the user is not on Rinkeby
 import { useDisconnect } from "@thirdweb-dev/react";
 
 const UnsupportedNetwork = () => {

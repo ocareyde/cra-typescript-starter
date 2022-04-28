@@ -1,16 +1,10 @@
 import { useDisconnect } from "@thirdweb-dev/react";
-import { EditionDrop, Json } from "@thirdweb-dev/sdk";
+import { EditionDrop, EditionMetadata, Json } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import useEditionDropGetAll from "./useEditionDropGetAll";
 
-
-const Member = ({ address, editionDrop, hasClaimedNFT }:
-  { address: string, editionDrop: EditionDrop | undefined, hasClaimedNFT: boolean }) => {
-
+const Member = ({ address, memberNFTs } : { address: string, memberNFTs: EditionMetadata[] }) => {
   const disconnectWallet = useDisconnect();
-  // Membership NFTs
-  const { editionNFTs: memberNFTs, setEditionNFTs: setMemberNFTs } = useEditionDropGetAll({ address, editionDrop, claimFlag: hasClaimedNFT })
-
 
   return (
     <div className="member-page">

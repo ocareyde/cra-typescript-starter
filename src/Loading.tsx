@@ -1,4 +1,3 @@
-// Set a Loading State
 
 const Loading = () => {
   return (
