@@ -17,6 +17,8 @@ function App() {
   const chainId = useChainId();
   const activeChainId = ChainId.Rinkeby;
 
+  const disconnectWallet = useDisconnect();
+
   // CONTRACTS //
   const memberNFTDrop = useEditionDrop("0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D");
   const tokenId = 1; // 0: OG, 1: Membership
@@ -39,6 +41,11 @@ function App() {
 
 
   // FUNCTIONS //
+  useEffect(() => {
+    if (!address) {
+      setWhichChannel(0);
+    }
+  }, [address])
 
   // HTML //
 
@@ -67,24 +74,37 @@ function App() {
 
   // Member Page //
   // Set a Loading State
-  if (isValidating && !hasClaimedNFT) {
+  if (whichChannel == 1 && isValidating && !hasClaimedNFT) {
     return (
       <Loading/>
     )
   }
 
   // If user has a Membership NFT, take them to Member Page
-  if (hasClaimedNFT) {
+  if (whichChannel == 1 && hasClaimedNFT) {
     return (
       <Member address={address} memberNFTs={memberNFTs}/>
     )
   }
 
   // If user does not have a Membership NFT
+  if (whichChannel == 1)
+    return (
+      <NonMember address={address} tokenId={tokenId} memberNFTDrop={memberNFTDrop}
+        isClaiming={isClaiming} setIsClaiming={setIsClaiming} setHasClaimedNFT={setHasClaimedNFT}
+      />
+    )
+
+  // Sponsor Page
   return (
-    <NonMember address={address} tokenId={tokenId} memberNFTDrop={memberNFTDrop}
-      isClaiming={isClaiming} setIsClaiming={setIsClaiming} setHasClaimedNFT={setHasClaimedNFT}
-    />
+    <div className="landing">
+      <h1>Sponsor Page coming soon!</h1>
+    <p></p>
+      <>
+        <button disabled={isClaiming} onClick={disconnectWallet}>Disconnect Wallet</button>
+        <p>Your address: {address}</p>
+      </>
+    </div>
   )
 }
 
