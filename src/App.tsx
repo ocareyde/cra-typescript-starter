@@ -34,13 +34,12 @@ function App() {
   // Member Channel
   // State variable for us to know if user has our NFT.
   const { hasClaimedNFT, setHasClaimedNFT, isValidating, setIsValidating } = useEditionDropGetOwned({ address, editionDrop: memberNFTDrop })
-  // isClaiming lets us keep a loading state while the NFT is minting
-  const [isClaiming, setIsClaiming] = useState(false);
   // Membership NFTs
   const { editionNFTs: memberNFTs, setEditionNFTs: setMemberNFTs } = useEditionDropGetAll({ address, editionDrop: memberNFTDrop, claimFlag: hasClaimedNFT })
 
 
   // FUNCTIONS //
+  // Resets after Disconnect
   useEffect(() => {
     if (!address) {
       setWhichChannel(0);
@@ -91,7 +90,7 @@ function App() {
   if (whichChannel == 1)
     return (
       <NonMember address={address} tokenId={tokenId} memberNFTDrop={memberNFTDrop}
-        isClaiming={isClaiming} setIsClaiming={setIsClaiming} setHasClaimedNFT={setHasClaimedNFT}
+        setHasClaimedNFT={setHasClaimedNFT}
       />
     )
 
@@ -101,7 +100,7 @@ function App() {
       <h1>Sponsor Page coming soon!</h1>
     <p></p>
       <>
-        <button disabled={isClaiming} onClick={disconnectWallet}>Disconnect Wallet</button>
+        <button onClick={disconnectWallet}>Disconnect Wallet</button>
         <p>Your address: {address}</p>
       </>
     </div>

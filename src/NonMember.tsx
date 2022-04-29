@@ -1,14 +1,15 @@
 import { useDisconnect } from "@thirdweb-dev/react";
 import { EditionDrop } from "@thirdweb-dev/sdk";
 import { BigNumberish } from "ethers";
+import { useState } from "react";
 import mintNFT from "./mintNFT"
 
-const NonMember = ({ address, tokenId, memberNFTDrop, isClaiming, setIsClaiming, setHasClaimedNFT }:
-  { address: string, tokenId: BigNumberish, memberNFTDrop: EditionDrop | undefined, isClaiming: boolean,
-    setIsClaiming: (value: React.SetStateAction<boolean>) => void,
+const NonMember = ({ address, tokenId, memberNFTDrop, setHasClaimedNFT }:
+  { address: string, tokenId: BigNumberish, memberNFTDrop: EditionDrop | undefined,
     setHasClaimedNFT: (value: React.SetStateAction<boolean>) => void 
   }) => {
 
+  const [isClaiming, setIsClaiming] = useState(false);
   const disconnectWallet = useDisconnect();
 
   return (
