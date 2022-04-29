@@ -140,7 +140,21 @@ button:disabled {
   pointer-events: none;
 }
 
-
+/* Table row padding */
 tr > * + * {
   padding-left: 3em;
 }
+
+/* For landing page channels */
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+  /* border: 2px solid yellow; */
+}  
+
+.flex-child:first-child {
+  margin-right: 20px;
+} 

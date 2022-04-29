@@ -2,6 +2,7 @@ import { useAddress, useChainId, useDisconnect, useMetamask } from '@thirdweb-de
 import { useEditionDrop } from "@thirdweb-dev/react";
 import { ChainId, EditionMetadata } from '@thirdweb-dev/sdk';
 import { useState, useEffect } from 'react';
+import Connect from './Connect';
 import Landing from './Landing';
 import Loading from './Loading';
 import Member from './Member';
@@ -20,11 +21,15 @@ function App() {
   const memberNFTDrop = useEditionDrop("0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D");
   const tokenId = 1; // 0: OG, 1: Membership
 
-  console.log(chainId)
-  console.log(activeChainId)
-
 
   // STATE VARIABLES //
+  // State variable for us to know which channel user wants to view
+  // 0: default, no channel
+  // 1: member channel
+  // 2: sponsor channel
+  const [ whichChannel, setWhichChannel ] = useState(0)
+  
+  // Member Channel
   // State variable for us to know if user has our NFT.
   const { hasClaimedNFT, setHasClaimedNFT, isValidating, setIsValidating } = useEditionDropGetOwned({ address, editionDrop: memberNFTDrop })
   // isClaiming lets us keep a loading state while the NFT is minting
@@ -42,28 +47,36 @@ function App() {
   // TODO: maybe button to go back to regular website
   if (!address) {
     return (
-      <Landing></Landing>
+      <Connect/>
     ) 
   }
 
   // Pop a message if the user is not on Rinkeby
   if (address && chainId !== activeChainId) {
     return (
-      <UnsupportedNetwork></UnsupportedNetwork>
+      <UnsupportedNetwork/>
     )
   }
 
+  // Landing page - choose which channel
+  if (address && whichChannel == 0) {
+    return (
+      <Landing setWhichChannel={setWhichChannel}/>
+    )
+  }
+
+  // Member Page //
   // Set a Loading State
   if (isValidating && !hasClaimedNFT) {
     return (
-      <Loading></Loading>
+      <Loading/>
     )
   }
 
   // If user has a Membership NFT, take them to Member Page
   if (hasClaimedNFT) {
     return (
-      <Member address={address} memberNFTs={memberNFTs}></Member>
+      <Member address={address} memberNFTs={memberNFTs}/>
     )
   }
 

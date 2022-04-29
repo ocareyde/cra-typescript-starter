@@ -1,16 +1,32 @@
-import { useMetamask } from "@thirdweb-dev/react";
+import { useDisconnect } from "@thirdweb-dev/react";
 
-const Landing = () => {
-  const connectWithMetamask = useMetamask();
-  
+const Landing = ({setWhichChannel} : { setWhichChannel: (value: React.SetStateAction<number>) => void}) => {
+  const disconnectWallet = useDisconnect();
+
+  const handleClick = (channel: number) => {
+    setWhichChannel(channel);
+  }
+
   return (
     <div className="landing">
-      <h1>Welcome to NorthStar DAO</h1>
-      <button onClick={connectWithMetamask} className="btn-hero">
-        Connect with Metamask
-      </button>
+      <h1>What brings you here?</h1>
+      
+      <div className="flex-container">
+        <div className="flex-child">
+          <button onClick={() => handleClick(2)}>Sponsor Page</button>
+        </div>
+        <div className="flex-child">
+          <button onClick={() => handleClick(1)}>Member Page</button>
+        </div>
+      </div>
+      
+      <p></p>
+      <p></p>
+      <>
+        <button onClick={disconnectWallet}>Disconnect Wallet</button>
+      </>
     </div>
-  );
+  )
 }
 
 export default Landing;
