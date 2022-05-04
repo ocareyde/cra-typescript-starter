@@ -20,7 +20,7 @@ function App() {
   const disconnectWallet = useDisconnect();
 
   // CONTRACTS //
-  const memberNFTDrop = useEditionDrop("0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D");
+  const memberNFTDrop = useEditionDrop(process.env.REACT_APP_EDITION_DROP_ADDRESS_MEMBERSHIP);
   const tokenId = 1; // 0: OG, 1: Membership
 
 
@@ -45,6 +45,7 @@ function App() {
       setWhichChannel(0);
     }
   }, [address])
+
 
   // HTML //
 
@@ -87,12 +88,13 @@ function App() {
   }
 
   // If user does not have a Membership NFT
-  if (whichChannel == 1)
+  if (whichChannel == 1) {
     return (
       <NonMember address={address} tokenId={tokenId} memberNFTDrop={memberNFTDrop}
         setHasClaimedNFT={setHasClaimedNFT}
       />
     )
+  }
 
   // Sponsor Page
   return (
