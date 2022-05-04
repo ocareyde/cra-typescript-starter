@@ -18,9 +18,9 @@
 .env.test.local
 .env.production.local
 .env
-_scratch.js
-archive/*
-scripts/*
+
+/scripts
+/archive
 
 npm-debug.log*
 yarn-debug.log*
