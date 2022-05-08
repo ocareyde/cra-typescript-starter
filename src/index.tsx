@@ -1,9 +1,9 @@
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
-import "./index.css";
 
 // This is the chainId your dApp will work on.
 const activeChainId = ChainId.Rinkeby;
