@@ -11,6 +11,8 @@ body {
 #root {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
+  align-content: center;
 }
 
 h1 {
@@ -42,10 +44,16 @@ h1 {
   background-color: #f00;
 }
 
+.main-logo {
+  display: flex;
+  margin: 8px auto;
+}
+
 .landing,
 .connect-wallet,
 .mint-nft,
-.member-page {
+.member-page,
+.main {
   flex-direction: column;
   width: 960px;
   max-width: calc(100% - 1rem);
@@ -153,8 +161,8 @@ tr > * + * {
 .flex-child {
   flex: 1;
   /* border: 2px solid yellow; */
-}  
+}
 
 .flex-child:first-child {
   margin-right: 20px;
-} 
+}
