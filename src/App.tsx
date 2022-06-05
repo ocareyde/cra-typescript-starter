@@ -2,7 +2,7 @@ import {
   useAddress,
   useChainId,
   useDisconnect,
-  useEditionDrop,
+  useEditionDrop
 } from '@thirdweb-dev/react';
 import { ChainId } from '@thirdweb-dev/sdk';
 import { useEffect, useState } from 'react';
@@ -25,9 +25,7 @@ function Content() {
   const disconnectWallet = useDisconnect();
 
   // CONTRACTS //
-  const memberNFTDrop = useEditionDrop(
-    process.env.REACT_APP_EDITION_DROP_ADDRESS_MEMBERSHIP,
-  );
+  const memberNFTDrop = useEditionDrop('0x9bfe8A2c0D2451541B71f361F3E5308787A66D2D');
   const tokenId = 1; // 0: OG, 1: Membership
 
   // STATE VARIABLES //
